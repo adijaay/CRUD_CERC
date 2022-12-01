@@ -1,7 +1,6 @@
 // MahasiswaController.java
 package com.example.controller;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
@@ -58,7 +57,6 @@ public class cerccontroller {
             String sql = "SELECT * FROM USERS WHERE USERNAME = ?";
             user asli = jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(user.class), username);
             model.addAttribute("asli", asli);
-            String userasli = asli.getUsername();
             String passasli = asli.getPassword();
             if (password.equals(passasli)) {
                 return "redirect:/admin";
@@ -112,7 +110,8 @@ public class cerccontroller {
         jdbcTemplate.update(sql, anggota.getNama_anggota(), anggota.getNim_anggota(),
                 anggota.getAngkatan_anggota(),
                 anggota.getId_minat(), anggota.getId_anggota());
-        return "redirect:/admin";
+        String id = anggota.getId_minat();
+        return "redirect:/indexdetailadmin/".concat(id);
     }
 
     @GetMapping("/editketua/{id_ketua}")
